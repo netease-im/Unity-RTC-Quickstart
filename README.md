@@ -2,7 +2,7 @@
 
 _Other Languages: [简体中文](README_zh_CN.md)_
 
-The open source project shows the basic integration logic of `Unity RTC SDK` in different scenes. Each `MainSence` in the example is independent.
+The open source project shows the basic integration logic of `Unity RTC SDK` in different scenes. Each `MainScene` in the example is independent.
 
 ## Folder structure
 
