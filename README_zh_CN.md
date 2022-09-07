@@ -2,7 +2,7 @@
 
 _Other Languages: [English](README.md)_
 
-本开源示例项目演示了不同场景下，`Unity RTC SDK` 的基本集成逻辑。 项目中每个示例的`MainSence`都是一个独立的场景，可以独立运行。
+本开源示例项目演示了不同场景下，`Unity RTC SDK` 的基本集成逻辑。 项目中每个示例的`MainScene`都是一个独立的场景，可以独立运行。
 
 ## 目录结构
 
