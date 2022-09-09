@@ -40,7 +40,7 @@ Before starting the demo project, make sure your development environment meets t
 
 1. [**Create a project and get `App Key`**](https://doc.yunxin.163.com/nertc/docs/DE3NDM0NTI?platform=unity). Activate required services, such as Audio & Video Call, and sign up your IM account.
 
-2. Download the Unity RTC SDK. Integrate the SDK following the procedure below. For more information, see the Integrate SDK for Unity.
+2. [**Download the Unity RTC SDK**](https://yx-web-nosdn.netease.im/package/1662715423977/nertc-unity-sdk-4.5.907.7z?download=nertc-unity-sdk-4.5.907.7z). Integrate the SDK following the procedure below. For more information, see the Integrate SDK for Unity.
 	1. Move `com.netease.game.rtc-*.*.*.tgz` in the SDK to the `Packages` folder.
 	2. Open `Package Manager` in the `Unity Editor`. Click`"+"` icon. Click `"Add Package from tarball..."` and select and import `com.netease.game.rtc-*.*.0.tgz` in the `Packages` folder.
 
