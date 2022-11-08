@@ -7,7 +7,7 @@ using UnityEngine.Android;
 
 namespace nertc.examples
 {
-    public class PermissionHelper
+    public static class PermissionHelper
     {
         public static void RequestMicroPhonePermission()
         {
