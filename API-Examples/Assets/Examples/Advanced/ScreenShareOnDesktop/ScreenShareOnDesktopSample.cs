@@ -137,11 +137,11 @@ namespace nertc.examples
 
         private void PrepareShareShare()
         {
-            _displayInfos.Clear();
             windowList.ClearOptions();
             dispalyList.ClearOptions();
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            _displayInfos.Clear();
             var windowInfoList = ScreenShareHelper.GetDesktopWindowInfo();
             if(windowList != null)
             {
@@ -168,6 +168,7 @@ namespace nertc.examples
             var option = dispalyList.options[dispalyList.value].text;
             var displayId = System.Convert.ToUInt32(option.Replace("Display:", ""));
 
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
             var mi = _displayInfos[displayId];
 
             //Before you want to share you screen,you should setup lcoal view.
@@ -200,7 +201,6 @@ namespace nertc.examples
                 prefer = RtcSubStreamContentPrefer.kNERtcSubStreamContentPreferDetails,
             };
 
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
             int result = _rtcEngine.StartScreenCaptureByScreenRect(screenRect, regionRect, screenParams);
             if (result != (int)RtcErrorCode.kNERtcNoError)
             {
