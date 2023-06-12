@@ -192,16 +192,16 @@ namespace nertc.examples
         {
             var position = new Vector3
             {
-                x = string.IsNullOrEmpty(SelfPositonX.text) ? 0 : System.Convert.ToSingle(SelfPositonX.text),
-                y = string.IsNullOrEmpty(SelfPositonY.text) ? 0 : System.Convert.ToSingle(SelfPositonY.text),
-                z = string.IsNullOrEmpty(SelfPositonZ.text) ? 0 : System.Convert.ToSingle(SelfPositonZ.text),
+                x = string.IsNullOrEmpty(SelfPositonX.text) ? 0 : float.Parse(SelfPositonX.text),
+                y = string.IsNullOrEmpty(SelfPositonY.text) ? 0 : float.Parse(SelfPositonY.text),
+                z = string.IsNullOrEmpty(SelfPositonZ.text) ? 0 : float.Parse(SelfPositonZ.text),
             };
 
             var rotation = new Vector3
             {
-                x = string.IsNullOrEmpty(SelfRotationX.text) ? 0 : System.Convert.ToSingle(SelfRotationX.text),
-                y = string.IsNullOrEmpty(SelfRotationY.text) ? 0 : System.Convert.ToSingle(SelfRotationY.text),
-                z = string.IsNullOrEmpty(SelfRotationZ.text) ? 0 : System.Convert.ToSingle(SelfRotationZ.text),
+                x = string.IsNullOrEmpty(SelfRotationX.text) ? 0 : float.Parse(SelfRotationX.text),
+                y = string.IsNullOrEmpty(SelfRotationY.text) ? 0 : float.Parse(SelfRotationY.text),
+                z = string.IsNullOrEmpty(SelfRotationZ.text) ? 0 : float.Parse(SelfRotationZ.text),
             };
 
             selfGameObject.transform.position = position;
