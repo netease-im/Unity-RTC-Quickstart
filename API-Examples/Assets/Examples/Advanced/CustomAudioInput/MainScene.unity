@@ -220,7 +220,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04b8aaa3dab7f574baf85f372b96187d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  APP_KEY: YOUR APP KEY
+  TOKEN: 
+  CHANNEL_NAME: YOUR CHANNEL NAME
+  UID: 0
   _logText: {fileID: 1558517123}
+  EnableExternalAudioInput: 1
+  AUDIO_CHANNELS: 2
+  AUDIO_SAMPLE_RATE: 48000
+  AUDIO_PUSH_FREQ_PER_SEC: 50
 --- !u!114 &281165284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,7 +489,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 281165283}
         m_MethodName: OnLeaveChannelClicked
         m_Mode: 1
         m_Arguments:
@@ -611,7 +619,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 281165283}
         m_MethodName: OnJoinChannelClicked
         m_Mode: 1
         m_Arguments:
