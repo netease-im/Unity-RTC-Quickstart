@@ -18,13 +18,13 @@ _Other Languages: [English](README.md)_
 │  │  ├─ Advanced              		// 演示 高级功能的示例代码
 │  │  │  ├─ 3DAudio            		// 演示 空间音效的示例代码
 │  │  │  ├─ MultiVideoChat     		// 演示 多人音视频聊天的示例代码
-│  │  │  ├─ AudioVolumeIndication   // 演示 音量显示的示例代码
+│  │  │  ├─ AudioVolumeIndication       // 演示 音量显示的示例代码
 │  │  │  ├─ CustomAudioRender     	// 演示 自定义音频渲染的示例代码
 │  │  │  ├─ CustomAudioInput     	// 演示 自定义音频输入的示例代码
 │  │  │  ├─ CustomVideoInput     	// 演示 自定义视频输入的示例代码
 │  │  │  ├─ DeviceManager     		// 演示 音视频设备管理的示例代码
 │  │  │  ├─ LiveStreaming     		// 演示 旁路直播的示例代码
-│  │  │  ├─ ScreenShareOnDesktop    // 演示 桌面端共享屏幕的示例代码
+│  │  │  ├─ ScreenShareOnDesktop        // 演示 桌面端共享屏幕的示例代码
 │  │  │
 ├─ ├─ Utils    // 工具类
 ├─ ├─ Editor    // 编辑器设置目录
