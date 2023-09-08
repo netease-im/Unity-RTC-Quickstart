@@ -25,6 +25,10 @@ namespace nertc.examples
         [Tooltip("UID is optional. The default value is 0. If the uid is not specified (set to 0), the SDK automatically assigns a random uid and returns the uid in the callback of onJoinChannel.")]
         public ulong UID = 0;
 
+        [SerializeField]
+        [Tooltip("You need specify the audio stream type")]
+        public RtcAudioStreamType AUDIO_STREAM_TYPE = RtcAudioStreamType.kNERtcAudioStreamTypeMain;
+
         [Header("Log Output")]
         public Text _logText;
 
@@ -89,10 +93,10 @@ namespace nertc.examples
             _logger.Log($"RtcEngine Initialize Success");
 
             //Enables local audio and local video capture.
-            _rtcEngine.EnableLocalAudio(true);
+            _rtcEngine.EnableLocalAudio(AUDIO_STREAM_TYPE, true);
 
             //Enable the external audio capture before joining the channel
-            _rtcEngine.SetExternalAudioSource(EnableExternalAudioInput, AUDIO_SAMPLE_RATE,AUDIO_CHANNELS);
+            _rtcEngine.SetExternalAudioSource(AUDIO_STREAM_TYPE, EnableExternalAudioInput, AUDIO_SAMPLE_RATE,AUDIO_CHANNELS);
 
             return true;
         }
@@ -195,7 +199,7 @@ namespace nertc.examples
                             },
                             data = nativeBuffer,
                         };
-                        int result = _rtcEngine.PushExternalAudioFrame(frame);
+                        int result = _rtcEngine.PushExternalAudioFrame(AUDIO_STREAM_TYPE, frame);
                         if (result != (int)RtcErrorCode.kNERtcNoError)
                         {
                             UnityEngine.Debug.Log($"PushExternalAudioFrame result {result}");
@@ -261,21 +265,21 @@ namespace nertc.examples
         {
             _logger.Log($"OnLeaveChannel result - {result}");
         }
-        private void OnUserJoinedHandler(ulong uid, string userName)
+        private void OnUserJoinedHandler(ulong uid, string userName, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserJoined uid - {uid},userName - {userName}");
         }
-        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason)
+        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserLeft uid - {uid},reason - {reason}");            
         }
-        private void OnUserAudioStartHandler(ulong uid)
+        private void OnUserAudioStartHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStart uid - {uid}");
+            _logger.Log($"OnUserAudioStart type - {type} ,uid - {uid}");
         }
-        private void OnUserAudioStopHandler(ulong uid)
+        private void OnUserAudioStopHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStop uid - {uid}");
+            _logger.Log($"OnUserAudioStop type - {type} ,uid - {uid}");
         }
 #endregion
 

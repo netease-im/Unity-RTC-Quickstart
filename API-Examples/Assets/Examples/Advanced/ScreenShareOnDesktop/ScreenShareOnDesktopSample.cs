@@ -90,7 +90,7 @@ namespace nertc.examples
             var canvas = new RtcVideoCanvas {
                 callback = new VideoFrameCallback(OnTexture2DSubstreamVideoFrame),
             };
-            _rtcEngine.SetupLocalSubstreamVideoCanvas(canvas);
+            _rtcEngine.SetupLocalVideoCanvas(RtcVideoStreamType.kNERTCVideoStreamSub, canvas);
             return true;
         }
 
@@ -110,8 +110,8 @@ namespace nertc.examples
             _rtcEngine.OnUserLeft = OnUserLeftHandler;
             _rtcEngine.OnUserAudioStart = OnUserAudioStartHandler;
             _rtcEngine.OnUserAudioStop = OnUserAudioStopHandler;
-            _rtcEngine.OnUserSubStreamVideoStart = OnUserSubStreamVideoStartHandler;
-            _rtcEngine.OnUserSubStreamVideoStop = OnUserSubStreamVideoStopHandler;
+            _rtcEngine.OnUserVideoStart = OnUserVideoStartHandler;
+            _rtcEngine.OnUserVideoStop = OnUserVideoStopHandler;
             _rtcEngine.OnScreenCaptureStatusChanged = OnScreenCaptureStatusChangedHandler;
         }
 
@@ -303,41 +303,41 @@ namespace nertc.examples
         {
             _logger.Log($"OnLeaveChannel result - {result}");
         }
-        private void OnUserJoinedHandler(ulong uid, string userName)
+        private void OnUserJoinedHandler(ulong uid, string userName, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserJoined uid - {uid},userName - {userName}");
         }
-        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason)
+        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserLeft uid - {uid},reason - {reason}");
 
             //remove video canvas after user left
-            _rtcEngine.SetupRemoteVideoCanvas(uid, null);
+            _rtcEngine.SetupRemoteVideoCanvas(uid, RtcVideoStreamType.kNERTCVideoStreamSub, null);
         }
-        private void OnUserAudioStartHandler(ulong uid)
+        private void OnUserAudioStartHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStart uid - {uid}");
+            _logger.Log($"OnUserAudioStart type - {type} ,uid - {uid}");
         }
-        private void OnUserAudioStopHandler(ulong uid)
+        private void OnUserAudioStopHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStop uid - {uid}");
+            _logger.Log($"OnUserAudioStop type - {type} ,uid - {uid}");
         }
-        private void OnUserSubStreamVideoStartHandler(ulong uid, RtcVideoProfileType maxProfile)
+        private void OnUserVideoStartHandler(RtcVideoStreamType type, ulong uid, RtcVideoProfileType maxProfile)
         {
-            _logger.Log($"OnUserVideoStart uid - {uid},maxProfile - {maxProfile}");
+            _logger.Log($"OnUserVideoStart uid - {uid}, type - {type} ,maxProfile - {maxProfile}");
 
             //You should set remote user canvas firstly and subscribe user video stream if need retrieve video stream of the remote user .
             var canvas = new RtcVideoCanvas
             {
                 callback = new VideoFrameCallback(OnTexture2DSubstreamVideoFrame),
             };
-            _rtcEngine.SetupRemoteSubstreamVideoCanvas(uid, canvas);
-            _rtcEngine.SubscribeRemoteVideoSubstream(uid,true);
+            _rtcEngine.SetupRemoteVideoCanvas(uid, type, canvas);
+            _rtcEngine.SubscribeRemoteVideoStream(uid, type, RtcRemoteVideoStreamType.kNERtcRemoteVideoStreamTypeHigh, true);
         }
 
-        private void OnUserSubStreamVideoStopHandler(ulong uid)
+        private void OnUserVideoStopHandler(RtcVideoStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserVideoStop uid - {uid}");
+            _logger.Log($"OnUserVideoStop type - {type} ,uid - {uid}");
         }
 
         private void OnScreenCaptureStatusChangedHandler(RtcScreenCaptureStatus status)

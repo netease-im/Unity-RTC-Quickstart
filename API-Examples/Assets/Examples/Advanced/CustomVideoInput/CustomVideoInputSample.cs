@@ -24,6 +24,10 @@ namespace nertc.examples
         [Tooltip("UID is optional. The default value is 0. If the uid is not specified (set to 0), the SDK automatically assigns a random uid and returns the uid in the callback of onJoinChannel.")]
         public ulong UID = 0;
 
+        [SerializeField]
+        [Tooltip("You need specify the video stream type")]
+        public RtcVideoStreamType VIDEO_STREAM_TYPE = RtcVideoStreamType.kNERTCVideoStreamMain;
+
         [Header("Log Output")]
         public Text _logText;
 
@@ -83,24 +87,24 @@ namespace nertc.examples
             _logger.Log($"RtcEngine Initialize Success");
 
             //Enables local audio and local video capture.
-            _rtcEngine.EnableLocalAudio(true);
-            _rtcEngine.EnableLocalVideo(true);
+            _rtcEngine.EnableLocalAudio(RtcAudioStreamType.kNERtcAudioStreamTypeMain, true);
+            _rtcEngine.EnableLocalVideo(VIDEO_STREAM_TYPE, true);
 
             //Sets local views.This method is used to set the display information about the local video. The method is applicable for only local
             //users.Remote users are not affected.
             var canvas = new RtcVideoCanvas {
                 callback = new VideoFrameCallback(OnTexture2DVideoFrame),
             };
-            _rtcEngine.SetupLocalVideoCanvas(canvas);
+            _rtcEngine.SetupLocalVideoCanvas(VIDEO_STREAM_TYPE, canvas);
 
             //Enable the external video capture before joining the channel
-            _rtcEngine.SetExternalVideoSource(true);
+            _rtcEngine.SetExternalVideoSource(VIDEO_STREAM_TYPE, true);
 #if UNITY_STANDALONE || UNITY_EDITOR
             //You need set the specified external input device on windows or macos platform
-            _rtcEngine.VideoDeviceManager.SetDevice(RtcConstants.kNERtcExternalVideoDeviceID);
+            _rtcEngine.VideoDeviceManager.SetDevice(VIDEO_STREAM_TYPE, RtcConstants.kNERtcExternalVideoDeviceID);
 #endif
             //set the configures for video
-            _rtcEngine.SetVideoConfig(new RtcVideoConfig
+            _rtcEngine.SetVideoConfig(VIDEO_STREAM_TYPE, new RtcVideoConfig
             {
                 maxProfile = RtcVideoProfileType.kNERtcVideoProfileHD1080P,
                 framerate = (RtcVideoFramerateType)_frameRate,
@@ -184,7 +188,7 @@ namespace nertc.examples
                     rotation = RtcVideoRotation.kNERtcVideoRotation180,
                     buffer = nativeBuffer,
                 };
-                int result = _rtcEngine.PushExternalVideoFrame(externalVideoFrame);
+                int result = _rtcEngine.PushExternalVideoFrame(VIDEO_STREAM_TYPE, externalVideoFrame);
                 Marshal.FreeHGlobal(nativeBuffer);
                 //_logger.Log($"PushExternalVideoFrame result :{result}");
             }
@@ -209,41 +213,41 @@ namespace nertc.examples
         {
             _logger.Log($"OnLeaveChannel result - {result}");
         }
-        private void OnUserJoinedHandler(ulong uid, string userName)
+        private void OnUserJoinedHandler(ulong uid, string userName, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserJoined uid - {uid},userName - {userName}");
         }
-        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason)
+        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserLeft uid - {uid},reason - {reason}");
 
             //remove video canvas after user left
-            _rtcEngine.SetupRemoteVideoCanvas(uid, null);
+            _rtcEngine.SetupRemoteVideoCanvas(uid, VIDEO_STREAM_TYPE, null);
         }
-        private void OnUserAudioStartHandler(ulong uid)
+        private void OnUserAudioStartHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStart uid - {uid}");
+            _logger.Log($"OnUserAudioStart type - {type} ,uid - {uid}");
         }
-        private void OnUserAudioStopHandler(ulong uid)
+        private void OnUserAudioStopHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStop uid - {uid}");
+            _logger.Log($"OnUserAudioStop type - {type} ,uid - {uid}");
         }
-        private void OnUserVideoStartHandler(ulong uid, RtcVideoProfileType maxProfile)
+        private void OnUserVideoStartHandler(RtcVideoStreamType type, ulong uid, RtcVideoProfileType maxProfile)
         {
-            _logger.Log($"OnUserVideoStart uid - {uid},maxProfile - {maxProfile}");
+            _logger.Log($"OnUserVideoStart uid - {uid}, type - {type} ,maxProfile - {maxProfile}");
 
             //You should set remote user canvas firstly and subscribe user video stream if need retrieve video stream of the remote user .
             var canvas = new RtcVideoCanvas
             {
                 callback = new VideoFrameCallback(OnTexture2DVideoFrame),
             };
-            _rtcEngine.SetupRemoteVideoCanvas(uid, canvas);
-            _rtcEngine.SubscribeRemoteVideoStream(uid, RtcRemoteVideoStreamType.kNERtcRemoteVideoStreamTypeHigh, true);
+            _rtcEngine.SetupRemoteVideoCanvas(uid, type, canvas);
+            _rtcEngine.SubscribeRemoteVideoStream(uid, type, RtcRemoteVideoStreamType.kNERtcRemoteVideoStreamTypeHigh, true);
         }
 
-        private void OnUserVideoStopHandler(ulong uid)
+        private void OnUserVideoStopHandler(RtcVideoStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserVideoStop uid - {uid}");
+            _logger.Log($"OnUserVideoStop type - {type} ,uid - {uid}");
         }
 
         public void OnTexture2DVideoFrame(ulong uid, Texture2D texture, RtcVideoRotation rotation)

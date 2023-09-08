@@ -84,17 +84,17 @@ namespace nertc.examples
             _channel2.SetClientRole(RtcClientRole.kNERtcClientRoleAudience);
 
             //only one channel can publish audio or video stream
-            _channel1.EnableLocalAudio(true);
-            _channel1.EnableLocalVideo(true);
+            _channel1.EnableLocalAudio(RtcAudioStreamType.kNERtcAudioStreamTypeMain, true);
+            _channel1.EnableLocalVideo(RtcVideoStreamType.kNERTCVideoStreamMain, true);
 
-            _channel2.EnableLocalAudio(false);
-            _channel2.EnableLocalVideo(false);
+            _channel2.EnableLocalAudio(RtcAudioStreamType.kNERtcAudioStreamTypeMain, false);
+            _channel2.EnableLocalVideo(RtcVideoStreamType.kNERTCVideoStreamMain, false);
 
             var canvas = new RtcVideoCanvas
             {
                 callback = new ChannelVideoFrameCallback(_channel1,ChannelOnTexture2DVideoFrame),
             };
-            _channel1.SetupLocalVideoCanvas(canvas);
+            _channel1.SetupLocalVideoCanvas(RtcVideoStreamType.kNERTCVideoStreamMain, canvas);
             return true;
         }
 
@@ -154,25 +154,25 @@ namespace nertc.examples
         {
             _logger.Log($"ChannelOnLeaveChannel channel - {channel.GetChannelName()}, result - {result}");
         }
-        private void ChannelOnUserJoinedHandler(IRtcChannel channel, ulong uid, string userName)
+        private void ChannelOnUserJoinedHandler(IRtcChannel channel, ulong uid, string userName, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserJoined channel - {channel.GetChannelName()}, uid - {uid},userName - {userName}");
         }
-        private void ChannelOnUserLeftHandler(IRtcChannel channel, ulong uid, RtcSessionLeaveReason reason)
+        private void ChannelOnUserLeftHandler(IRtcChannel channel, ulong uid, RtcSessionLeaveReason reason, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"ChannelOnUserLeft channel - {channel.GetChannelName()}, uid - {uid},reason - {reason}");
             //remove video canvas after user left
-            channel.SetupRemoteVideoCanvas(uid, null);
+            channel.SetupRemoteVideoCanvas(uid, RtcVideoStreamType.kNERTCVideoStreamMain, null);
         }
-        private void ChannelOnUserAudioStartHandler(IRtcChannel channel, ulong uid)
+        private void ChannelOnUserAudioStartHandler(IRtcChannel channel, RtcAudioStreamType type, ulong uid)
         {
             _logger.Log($"ChannelOnUserAudioStart channel - {channel.GetChannelName()}, uid - {uid}");
         }
-        private void ChannelOnUserAudioStopHandler(IRtcChannel channel, ulong uid)
+        private void ChannelOnUserAudioStopHandler(IRtcChannel channel, RtcAudioStreamType type, ulong uid)
         {
             _logger.Log($"ChannelOnUserAudioStop channel - {channel.GetChannelName()}, uid - {uid}");
         }
-        private void ChannelOnUserVideoStartHandler(IRtcChannel channel, ulong uid, RtcVideoProfileType maxProfile)
+        private void ChannelOnUserVideoStartHandler(IRtcChannel channel, RtcVideoStreamType type, ulong uid, RtcVideoProfileType maxProfile)
         {
             _logger.Log($"ChannelOnUserVideoStart channel - {channel.GetChannelName()}, uid - {uid},maxProfile - {maxProfile}");
 
@@ -181,11 +181,11 @@ namespace nertc.examples
             {
                 callback = new ChannelVideoFrameCallback(channel,ChannelOnTexture2DVideoFrame),
             };
-            channel.SetupRemoteVideoCanvas(uid, canvas);
-            channel.SubscribeRemoteVideoStream(uid, RtcRemoteVideoStreamType.kNERtcRemoteVideoStreamTypeHigh, true);
+            channel.SetupRemoteVideoCanvas(uid, type, canvas);
+            channel.SubscribeRemoteVideoStream(uid, type, RtcRemoteVideoStreamType.kNERtcRemoteVideoStreamTypeHigh, true);
         }
 
-        private void ChannelOnUserVideoStopHandler(IRtcChannel channel, ulong uid)
+        private void ChannelOnUserVideoStopHandler(IRtcChannel channel, RtcVideoStreamType type, ulong uid)
         {
             _logger.Log($"ChannelOnUserVideoStop channel - {channel.GetChannelName()},uid - {uid}");
         }

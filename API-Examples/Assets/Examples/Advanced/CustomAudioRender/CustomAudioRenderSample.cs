@@ -264,24 +264,21 @@ namespace nertc.examples
         {
             _logger.Log($"OnLeaveChannel result - {result}");
         }
-        private void OnUserJoinedHandler(ulong uid, string userName)
+        private void OnUserJoinedHandler(ulong uid, string userName, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserJoined uid - {uid},userName - {userName}");
         }
-        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason)
+        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserLeft uid - {uid},reason - {reason}");
-
-            //remove video canvas after user left
-            _rtcEngine.SetupRemoteVideoCanvas(uid, null);
         }
-        private void OnUserAudioStartHandler(ulong uid)
+        private void OnUserAudioStartHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStart uid - {uid}");
+            _logger.Log($"OnUserAudioStart type - {type} ,uid - {uid}");
         }
-        private void OnUserAudioStopHandler(ulong uid)
+        private void OnUserAudioStopHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStop uid - {uid}");
+            _logger.Log($"OnUserAudioStop type - {type} ,uid - {uid}");
         }
         #endregion
 

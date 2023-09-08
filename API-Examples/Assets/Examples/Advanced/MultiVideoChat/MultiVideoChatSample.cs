@@ -71,15 +71,15 @@ namespace nertc.examples
             _logger.Log($"RtcEngine Initialize Success");
 
             //Enables local audio and local video capture.
-            _rtcEngine.EnableLocalAudio(true);
-            _rtcEngine.EnableLocalVideo(true);
+            _rtcEngine.EnableLocalAudio(RtcAudioStreamType.kNERtcAudioStreamTypeMain, true);
+            _rtcEngine.EnableLocalVideo(RtcVideoStreamType.kNERTCVideoStreamMain, true);
 
             //Sets local views.This method is used to set the display information about the local video. The method is applicable for only local
             //users.Remote users are not affected.
             var canvas = new RtcVideoCanvas {
                 callback = new VideoFrameCallback(OnTexture2DVideoFrame),
             };
-            _rtcEngine.SetupLocalVideoCanvas(canvas);
+            _rtcEngine.SetupLocalVideoCanvas(RtcVideoStreamType.kNERTCVideoStreamMain, canvas);
             return true;
         }
 
@@ -176,40 +176,40 @@ namespace nertc.examples
 
             });
         }
-        private void OnUserJoinedHandler(ulong uid, string userName)
+        private void OnUserJoinedHandler(ulong uid, string userName, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserJoined uid - {uid},userName - {userName}");
         }
-        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason)
+        private void OnUserLeftHandler(ulong uid, RtcSessionLeaveReason reason, RtcUserJoinExtraInfo customInfo)
         {
             _logger.Log($"OnUserLeft uid - {uid},reason - {reason}");
 
             //remove video canvas after user left
-            _rtcEngine.SetupRemoteVideoCanvas(uid, null);
+            _rtcEngine.SetupRemoteVideoCanvas(uid, RtcVideoStreamType.kNERTCVideoStreamMain, null);
             Dispatcher.QueueOnMainThread(() =>
             {
                 DestroyImageView($"{uid}");
             });
         }
-        private void OnUserAudioStartHandler(ulong uid)
+        private void OnUserAudioStartHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStart uid - {uid}");
+            _logger.Log($"OnUserAudioStart type - {type} ,uid - {uid}");
         }
-        private void OnUserAudioStopHandler(ulong uid)
+        private void OnUserAudioStopHandler(RtcAudioStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserAudioStop uid - {uid}");
+            _logger.Log($"OnUserAudioStop type - {type} ,uid - {uid}");
         }
-        private void OnUserVideoStartHandler(ulong uid, RtcVideoProfileType maxProfile)
+        private void OnUserVideoStartHandler(RtcVideoStreamType type, ulong uid, RtcVideoProfileType maxProfile)
         {
-            _logger.Log($"OnUserVideoStart uid - {uid},maxProfile - {maxProfile}");
+            _logger.Log($"OnUserVideoStart uid - {uid}, type - {type} ,maxProfile - {maxProfile}");
 
             //You should set remote user canvas firstly and subscribe user video stream if need retrieve video stream of the remote user .
             var canvas = new RtcVideoCanvas
             {
                 callback = new VideoFrameCallback(OnTexture2DVideoFrame),
             };
-            _rtcEngine.SetupRemoteVideoCanvas(uid, canvas);
-            _rtcEngine.SubscribeRemoteVideoStream(uid, RtcRemoteVideoStreamType.kNERtcRemoteVideoStreamTypeHigh, true);
+            _rtcEngine.SetupRemoteVideoCanvas(uid, type, canvas);
+            _rtcEngine.SubscribeRemoteVideoStream(uid, type, RtcRemoteVideoStreamType.kNERtcRemoteVideoStreamTypeHigh, true);
 
             Dispatcher.QueueOnMainThread(() =>
             {
@@ -221,9 +221,9 @@ namespace nertc.examples
             });
         }
 
-        private void OnUserVideoStopHandler(ulong uid)
+        private void OnUserVideoStopHandler(RtcVideoStreamType type, ulong uid)
         {
-            _logger.Log($"OnUserVideoStop uid - {uid}");
+            _logger.Log($"OnUserVideoStop type - {type} ,uid - {uid}");
         }
 
         public void OnTexture2DVideoFrame(ulong uid, Texture2D texture, RtcVideoRotation rotation)
