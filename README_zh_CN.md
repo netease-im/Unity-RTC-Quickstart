@@ -46,9 +46,9 @@ _Other Languages: [English](README.md)_
 
 ### 运行示例项目
 
-1. [**创建应用并获取`App Key`**](https://doc.yunxin.163.com/nertc/docs/DE3NDM0NTI?platform=unity) 。开通必要的功能，如音视频功能等。
+1. [**创建应用并获取`App Key`**](https://doc.yunxin.163.com/console/docs/TIzMDE4NTA?platform=console) 。开通必要的功能，如音视频功能等。
 
-2. [**下载Unity RTC SDK**](https://yx-web-nosdn.netease.im/package/1662715423977/nertc-unity-sdk-4.5.907.7z?download=nertc-unity-sdk-4.5.907.7z) 之后，按下述方式集成导入SDK文件，详情可参考开发文档集成。
+2. [**下载Unity RTC SDK**](https://doc.yunxin.163.com/nertc/sdk-download?platform=unity) 之后，按下述方式集成导入SDK文件，详情可参考开发文档集成。
 	1. 把下载到的 SDK 文件`com.netease.game.rtc-*.*.*.tgz`放到`Packages`目录。
 	2. 打开`Unity Editor`的`Package Manager`，单击左上角`“+”`图标，单击`"Add Package from tarball..."`，选中`Packages`目录下的`com.netease.game.rtc-*.*.*.tgz`文件，即可完成导入。
 
@@ -60,7 +60,7 @@ _Other Languages: [English](README.md)_
 
 ## 联系我们
 
-- [网易云信文档中心](https://doc.yunxin.163.com/DeveloperContest/docs/zAwNTQ0Nzg?platform=unity)
-- [API参考](https://doc.yunxin.163.com/docs/interface/NERTC_SDK/V4.5.907/Unity/html/)
+- [网易云信文档中心](https://doc.yunxin.163.com/nertc/docs/home-page?platform=unity)
+- [API参考](https://doc.yunxin.163.com/nertc/api-refer/unity/doxygen/Latest/zh/html/index.html)
 - [知识库](https://faq.yunxin.163.com/kb/main/#/)
-	 [提交工单](https://app.yunxin.163.com/index#/issue/submit)	
+- [提交工单](https://app.yunxin.163.com/index#/issue/submit)	
