@@ -187,6 +187,10 @@ namespace nertc.examples
                     height = (uint)_texture.height,
                     rotation = RtcVideoRotation.kNERtcVideoRotation180,
                     buffer = nativeBuffer,
+                    bufferLength = bufferLength,
+                    count = 1,
+                    offsets = new long[4] {0,0,0,0},
+                    strides = new uint[4] {(uint)_texture.width * 4 ,0,0,0},
                 };
                 int result = _rtcEngine.PushExternalVideoFrame(VIDEO_STREAM_TYPE, externalVideoFrame);
                 Marshal.FreeHGlobal(nativeBuffer);
