@@ -92,11 +92,11 @@ namespace nertc.examples
 
             _logger.Log($"RtcEngine Initialize Success");
 
-            //Enables local audio and local video capture.
-            _rtcEngine.EnableLocalAudio(AUDIO_STREAM_TYPE, true);
-
             //Enable the external audio capture before joining the channel
-            _rtcEngine.SetExternalAudioSource(AUDIO_STREAM_TYPE, EnableExternalAudioInput, AUDIO_SAMPLE_RATE,AUDIO_CHANNELS);
+            _rtcEngine.SetExternalAudioSource(AUDIO_STREAM_TYPE, EnableExternalAudioInput, AUDIO_SAMPLE_RATE, AUDIO_CHANNELS);
+
+            //Enables local audio capture.
+            _rtcEngine.EnableLocalAudio(AUDIO_STREAM_TYPE, true);
 
             return true;
         }

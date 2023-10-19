@@ -86,6 +86,9 @@ namespace nertc.examples
 
             _logger.Log($"RtcEngine Initialize Success");
 
+            //Enable the external video capture before joining the channel
+            _rtcEngine.SetExternalVideoSource(VIDEO_STREAM_TYPE, true);
+
             //Enables local audio and local video capture.
             _rtcEngine.EnableLocalAudio(RtcAudioStreamType.kNERtcAudioStreamTypeMain, true);
             _rtcEngine.EnableLocalVideo(VIDEO_STREAM_TYPE, true);
@@ -97,8 +100,6 @@ namespace nertc.examples
             };
             _rtcEngine.SetupLocalVideoCanvas(VIDEO_STREAM_TYPE, canvas);
 
-            //Enable the external video capture before joining the channel
-            _rtcEngine.SetExternalVideoSource(VIDEO_STREAM_TYPE, true);
 #if UNITY_STANDALONE || UNITY_EDITOR
             //You need set the specified external input device on windows or macos platform
             _rtcEngine.VideoDeviceManager.SetDevice(VIDEO_STREAM_TYPE, RtcConstants.kNERtcExternalVideoDeviceID);
